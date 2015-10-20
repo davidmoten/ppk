@@ -80,7 +80,10 @@ If you are encrypting many things then its more efficient to use a single PPK ob
 
 ```java
 PPK ppk = PPK.publicKey("/public.der").build();
-List<byte[]> encrypted = list.stream().map(ppk::encrypt).collect(Collectors.toList());
+List<byte[]> encrypted = 
+    list.stream()
+        .map(ppk::encrypt)
+        .collect(Collectors.toList());
 ```
 
 
