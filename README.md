@@ -13,7 +13,7 @@ Features
 
 Maven dependency
 --------------------
-This libray is available on Maven Central.
+This library is available on Maven Central.
 
 Add this maven dependency to your pom.xml:
 
@@ -28,13 +28,14 @@ Add this maven dependency to your pom.xml:
 
 Generate keys
 -----------------
-We want to generate two files `public.der` and `private.der`:
+You'll need public and private key files. They can be generated using `openssl`:
 
 ```bash
 openssl genrsa -out keypair.pem 2048
 openssl rsa -in keypair.pem -outform DER -pubout -out public.der
 openssl pkcs8 -topk8 -nocrypt -in keypair.pem -outform DER -out private.der
 ```
+Now move `public.der` and `private.der` somewhere so you can access them with your code.
 
 Examples
 ---------------
