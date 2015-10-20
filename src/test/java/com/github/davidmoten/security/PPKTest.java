@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.google.common.base.Charsets;
 
 public class PPKTest {
+
     private static final String content = "Hello World";
 
     @Test
@@ -31,14 +32,14 @@ public class PPKTest {
 
     @Test
     public void testBuilder() {
-        byte[] bytes = PPK.publicKey("/public.der").encrypt("Hello World", Charsets.UTF_8);
+        byte[] bytes = PPK.publicKey("/public.der").encrypt(content, Charsets.UTF_8);
         assertEquals(content, PPK.privateKey("/private.der").decrypt(bytes, Charsets.UTF_8));
     }
 
     @Test
     public void testBuilderUsingFiles() {
-        byte[] bytes = PPK.publicKey(new File("src/test/resources/public.der"))
-                .encrypt("Hello World", Charsets.UTF_8);
+        byte[] bytes = PPK.publicKey(new File("src/test/resources/public.der")).encrypt(content,
+                Charsets.UTF_8);
         assertEquals(content, PPK.privateKey(new File("src/test/resources/private.der"))
                 .decrypt(bytes, Charsets.UTF_8));
     }
@@ -46,7 +47,7 @@ public class PPKTest {
     @Test
     public void testBuilderUsingInputStream() {
         byte[] bytes = PPK.publicKey(new File("src/test/resources/public.der"))
-                .encrypt(new ByteArrayInputStream("Hello World".getBytes(Charsets.UTF_8)));
+                .encrypt(new ByteArrayInputStream(content.getBytes(Charsets.UTF_8)));
         assertEquals(content, PPK.privateKey(new File("src/test/resources/private.der"))
                 .decrypt(bytes, Charsets.UTF_8));
     }

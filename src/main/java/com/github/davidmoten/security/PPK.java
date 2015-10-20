@@ -27,7 +27,7 @@ public final class PPK {
     private final Optional<PublicKey> publicKey;
     private final Optional<PrivateKey> privateKey;
 
-    public PPK(Optional<PublicKey> publicKey, Optional<PrivateKey> privateKey) {
+    private PPK(Optional<PublicKey> publicKey, Optional<PrivateKey> privateKey) {
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }
@@ -51,6 +51,10 @@ public final class PPK {
     public static final class Builder {
         private Optional<PublicKey> publicKey = Optional.empty();
         private Optional<PrivateKey> privateKey = Optional.empty();
+
+        private Builder() {
+            // prevent instantiation
+        }
 
         public Builder publicKey(byte[] bytes) {
             publicKey = Optional.of(readPublicKey(bytes));

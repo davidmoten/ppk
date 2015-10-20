@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.google.common.io.ByteStreams;
 
-public class Classpath {
+public final class Classpath {
 
     public static byte[] bytesFrom(String resource) {
         try {
