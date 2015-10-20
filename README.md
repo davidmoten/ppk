@@ -7,8 +7,8 @@ Concise Public/Private Key encryption using Java.
 
 Features
 * Builders and method chaining
-* byte[] encryption/decryption
-* String encryption/decryption
+* `byte[]` encryption/decryption
+* `String` encryption/decryption
 
 Maven dependency
 --------------------
@@ -69,7 +69,7 @@ byte[] decrypted =
 ```
 
 
-The examples above assume `/private.der` and `/public.der` are on the classpath. You can use overloads for `File` definitions or pass in the `byte[]` values for those keys.
+The examples above assume `/private.der` and `/public.der` are on the classpath. You can use overloads for `File` definitions or pass in `byte[]` of `InputStream` values for those keys.
 
 Encrypt a string:
 
@@ -88,6 +88,16 @@ List<byte[]> encrypted =
     list.stream()
         .map(ppk::encrypt)
         .collect(Collectors.toList());
+```
+
+Round trip example:
+
+```java
+PPK ppk = PPK.publicKey("/public.der")
+             .privateKey("/private.der")
+             .build();
+//result should be the same as bytes
+byte[] result = ppk.decrypt(ppk.encrypt(bytes));
 ```
 
 
