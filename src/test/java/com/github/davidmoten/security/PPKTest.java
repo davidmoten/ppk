@@ -64,13 +64,23 @@ public class PPKTest {
     public void testBuilderUsingPrivateKeyFileThrowsExceptionWhenFileDoesNotExist() {
         PPK.privateKey(new File("src/test/resources/privateDoesNotExist.der"));
     }
-    
+
     @Test
     public void testWithStream() {
-    	List<byte[]> list = Lists.newArrayList("hi".getBytes(), "there".getBytes());
-    	PPK ppk = PPK.publicKey("/public.der").build();
-    	List<byte[]> encrypted = list.stream().map(ppk::encrypt).collect(Collectors.toList());
-    	assertEquals(list.size(), encrypted.size());
+        List<byte[]> list = Lists.newArrayList("hi".getBytes(), "there".getBytes());
+        PPK ppk = PPK.publicKey("/public.der").build();
+        List<byte[]> encrypted = list.stream().map(ppk::encrypt).collect(Collectors.toList());
+        assertEquals(list.size(), encrypted.size());
+    }
+
+    @Test(expected = PublicKeyNotSetException.class)
+    public void testPublicKeyNotSetThrowsException() {
+        PPK.privateKey("/private.der").encrypt(content, Charsets.UTF_8);
+    }
+
+    @Test(expected = PrivateKeyNotSetException.class)
+    public void testPrivateKeyNotSetThrowsException() {
+        PPK.publicKey("/public.der").decrypt(content.getBytes(), Charsets.UTF_8);
     }
 
 }

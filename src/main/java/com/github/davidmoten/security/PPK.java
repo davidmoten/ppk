@@ -35,15 +35,15 @@ public final class PPK {
     public static final Builder privateKey(Class<?> cls, String resource) {
         return new Builder().privateKey(cls, resource);
     }
-    
+
     public static final Builder privateKey(String resource) {
         return new Builder().privateKey(resource);
     }
-    
+
     public static final Builder privateKey(InputStream is) {
-    	return new Builder().privateKey(is);
+        return new Builder().privateKey(is);
     }
-    
+
     public static final Builder privateKey(File file) {
         return new Builder().privateKey(file);
     }
@@ -51,7 +51,7 @@ public final class PPK {
     public static final Builder publicKey(Class<?> cls, String resource) {
         return new Builder().publicKey(cls, resource);
     }
-    
+
     public static final Builder publicKey(String resource) {
         return new Builder().publicKey(resource);
     }
@@ -59,9 +59,9 @@ public final class PPK {
     public static final Builder publicKey(File file) {
         return new Builder().publicKey(file);
     }
-    
+
     public static final Builder publicKey(InputStream is) {
-    	return new Builder().publicKey(is);
+        return new Builder().publicKey(is);
     }
 
     public static final class Builder {
@@ -73,22 +73,22 @@ public final class PPK {
         }
 
         public Builder publicKey(InputStream is) {
-        	try {
-				return publicKey(ByteStreams.toByteArray(is));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
+            try {
+                return publicKey(ByteStreams.toByteArray(is));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-		public Builder privateKey(InputStream is) {
-			try {
-				return privateKey(ByteStreams.toByteArray(is));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
+        public Builder privateKey(InputStream is) {
+            try {
+                return privateKey(ByteStreams.toByteArray(is));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-		public Builder publicKey(byte[] bytes) {
+        public Builder publicKey(byte[] bytes) {
             publicKey = Optional.of(readPublicKey(bytes));
             return this;
         }
@@ -96,7 +96,7 @@ public final class PPK {
         public Builder publicKey(String resource) {
             return publicKey(Classpath.bytesFrom(PPK.class, resource));
         }
-        
+
         public Builder publicKey(Class<?> cls, String resource) {
             return publicKey(Classpath.bytesFrom(cls, resource));
         }
@@ -117,7 +117,7 @@ public final class PPK {
         public Builder privateKey(String resource) {
             return privateKey(Classpath.bytesFrom(PPK.class, resource));
         }
-        
+
         public Builder privateKey(Class<?> cls, String resource) {
             return privateKey(Classpath.bytesFrom(cls, resource));
         }
@@ -165,11 +165,17 @@ public final class PPK {
     }
 
     public byte[] encrypt(byte[] bytes) {
-        return encrypt(publicKey.get(), bytes);
+        if (publicKey.isPresent())
+            return encrypt(publicKey.get(), bytes);
+        else
+            throw new PublicKeyNotSetException();
     }
 
     public byte[] decrypt(byte[] bytes) {
-        return decrypt(privateKey.get(), bytes);
+        if (privateKey.isPresent())
+            return decrypt(privateKey.get(), bytes);
+        else
+            throw new PrivateKeyNotSetException();
     }
 
     public byte[] encrypt(String string, Charset charset) {
