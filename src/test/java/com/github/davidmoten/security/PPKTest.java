@@ -5,10 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 
 public class PPKTest {
 
@@ -60,6 +63,14 @@ public class PPKTest {
     @Test(expected = RuntimeException.class)
     public void testBuilderUsingPrivateKeyFileThrowsExceptionWhenFileDoesNotExist() {
         PPK.privateKey(new File("src/test/resources/privateDoesNotExist.der"));
+    }
+    
+    @Test
+    public void testWithStream() {
+    	List<byte[]> list = Lists.newArrayList("hi".getBytes(), "there".getBytes());
+    	PPK ppk = PPK.publicKey("/public.der").build();
+    	List<byte[]> encrypted = list.stream().map(ppk::encrypt).collect(Collectors.toList());
+    	assertEquals(list.size(), encrypted.size());
     }
 
 }

@@ -2,6 +2,11 @@ ppk
 ======
 Public/Private Key encryption using Java.
 
+Features
+* Builders and method chaining
+* byte[] encryption/decryption
+* String encryption/decryption
+
 Generate keys
 -----------------
 We want to generate two files `public.der` and `private.der`:
@@ -54,6 +59,13 @@ String content = "Hello World";
 byte[] encrypted = 
     PPK.publicKey(new File("/home/me/.keys/public.der"))
        .encrypt(content, Charsets.UTF_8);
+```
+
+If you are encrypting many things then its more efficient to use a single PPK object:
+
+```java
+PPK ppk = PPK.publicKey("/public.der").build();
+List<byte[]> encrypted = list.stream().map(ppk::encrypt).collect(Collectors.toList());
 ```
 
 
