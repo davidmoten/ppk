@@ -7,6 +7,21 @@ Features
 * byte[] encryption/decryption
 * String encryption/decryption
 
+Maven dependency
+--------------------
+This libray is available on Maven Central.
+
+Add this maven dependency to your pom.xml:
+
+```xml
+<dependency>
+    <groupId>com.github.davidmoten</groupId>
+    <artifactId>ppk</artifactId>
+    <version>0.1.2</version>
+</dependency>
+```
+
+
 Generate keys
 -----------------
 We want to generate two files `public.der` and `private.der`:
