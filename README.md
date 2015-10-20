@@ -3,8 +3,7 @@ ppk
 [![Travis CI](https://travis-ci.org/davidmoten/ppk.svg)](https://travis-ci.org/davidmoten/ppk)<br/>
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/ppk/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/ppk)<br/>
 
-
-Public/Private Key encryption using Java.
+Concise Public/Private Key encryption using Java.
 
 Features
 * Builders and method chaining
