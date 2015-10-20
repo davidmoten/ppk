@@ -4,6 +4,7 @@ Public/Private Key encryption using Java.
 
 Generate keys
 -----------------
+We want to generate two files `public.der` and `private.der`:
 
 ```bash
 openssl genrsa -out keypair.pem 2048
