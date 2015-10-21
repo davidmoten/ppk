@@ -131,7 +131,7 @@ public class PPKTest {
     	testRSA(214);
     }
     
-    @Test(expected=RuntimeException.class)
+    @Test(expected=InputTooLongException.class)
     public void testRoundTripPureRSAInputGreaterThanMaxLength() {
     	testRSA(215);
     }

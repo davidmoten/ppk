@@ -26,6 +26,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 
 public final class PPK {
@@ -298,7 +299,7 @@ public final class PPK {
     
     public byte[] encryptRSA(byte[] bytes) {
     	if (bytes.length>214) {
-    		throw new RuntimeException("max length is 214 bytes. Use encrypt()/decrypt() instead.");
+    		throw new InputTooLongException("Input is too long. Use encrypt()/decrypt() instead because RSA cannot encrypt more than 214 bytes.");
     	}
     	return applyCipher(publicCipher.get(), bytes);
     }
