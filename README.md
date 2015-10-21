@@ -24,6 +24,17 @@ Add this maven dependency to your pom.xml:
 </dependency>
 ```
 
+Implementation details
+-----------------------------
+This library uses a 2048 bit RSA public key to encrypt a generated (per instance of PPK) 128 bit AES key which is prepended with the AES encrypted message.
+
+The decrypt functionality knows about the format of the encrypted bytes and extracts the AES key using the RSA private key and then decodes the remaining bytes using the extracted AES key.
+
+The output from the encryption method in this library is a byte sequence comprised of:
+
+* 1 byte = length in bytes of RSA encrypted AES key
+* the bytes of the RSA encrypted AES key
+* the bytes of the AES encrypted message
 
 Generate keys
 -----------------
@@ -100,8 +111,15 @@ PPK ppk = PPK.publicKey("/public.der")
 byte[] result = ppk.decrypt(ppk.encrypt(bytes));
 ```
 
+You can also minimize your memory usage by using the `encrypt` and `decrypt` methods with `InputStream` and `OutputStream` parameters:
 
+```java
+PPK.publicKey("/public.der").encrypt(inputStream, outputStream);
+```
 
+```java
+PPK.publicKey("/public.der").decrypt(inputStream, outputStream);
+```
 
 
 
