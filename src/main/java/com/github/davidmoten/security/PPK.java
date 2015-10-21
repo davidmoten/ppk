@@ -324,13 +324,6 @@ public final class PPK {
         }
     }
 
-    private static byte[] decrypt(Cipher cipher, byte[] bytes) {
-        ByteArrayInputStream is = new ByteArrayInputStream(bytes);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        applyCipher(cipher, is, output);
-        return output.toByteArray();
-    }
-
     private static void applyCipher(Cipher cipher, InputStream is, OutputStream os) {
         try (CipherOutputStream cos = new CipherOutputStream(os, cipher)) {
             copy(is, cos);
