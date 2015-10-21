@@ -114,11 +114,13 @@ byte[] result = ppk.decrypt(ppk.encrypt(bytes));
 You can also minimize your memory usage by using the `encrypt` and `decrypt` methods with `InputStream` and `OutputStream` parameters:
 
 ```java
-PPK.publicKey("/public.der").encrypt(inputStream, outputStream);
+PPK.publicKey("/public.der")
+   .encrypt(inputStream, outputStream);
 ```
 
 ```java
-PPK.publicKey("/public.der").decrypt(inputStream, outputStream);
+PPK.privateKey("/private.der")
+   .decrypt(inputStream, outputStream);
 ```
 
 
