@@ -15,7 +15,6 @@ Maven dependency
 This library is available on Maven Central.
 
 Add this maven dependency to your pom.xml:
-
 ```xml
 <dependency>
     <groupId>com.github.davidmoten</groupId>
@@ -52,7 +51,6 @@ Now move `public.der` and `private.der` somewhere so you can access them with yo
 Examples
 ---------------
 Encrypt a string:
-
 ```java
 String content = "Hello World";
 byte[] encrypted = 
@@ -60,41 +58,33 @@ byte[] encrypted =
        .encrypt(content, Charsets.UTF_8);
 ```
 Decrypt a string:
-
 ```java
 String content = 
     PPK.privateKey("/private.der")
        .decrypt(bytes, Charsets.UTF_8);
 ```
-
 Encrypt bytes:
 ```java
 byte[] encrypted = 
     PPK.publicKey("/public.der")
        .encrypt(bytes);
 ```
-
 Decrypt bytes:
 ```java
 byte[] decrypted = 
     PPK.privateKey("/private.der")
        .decrypt(bytes);
 ```
-
-
 The examples above assume `/private.der` and `/public.der` are on the classpath. You can use overloads for `File` definitions or pass in `byte[]` of `InputStream` values for those keys.
 
 Encrypt a string:
-
 ```java
 String content = "Hello World";
 byte[] encrypted = 
     PPK.publicKey(new File("/home/me/.keys/public.der"))
        .encrypt(content, Charsets.UTF_8);
 ```
-
 If you are encrypting many things then its more efficient to use a single PPK object:
-
 ```java
 PPK ppk = PPK.publicKey("/public.der").build();
 List<byte[]> encrypted = 
@@ -102,9 +92,7 @@ List<byte[]> encrypted =
         .map(ppk::encrypt)
         .collect(Collectors.toList());
 ```
-
 Round trip example:
-
 ```java
 PPK ppk = PPK.publicKey("/public.der")
              .privateKey("/private.der")
@@ -112,14 +100,11 @@ PPK ppk = PPK.publicKey("/public.der")
 //result should be the same as bytes
 byte[] result = ppk.decrypt(ppk.encrypt(bytes));
 ```
-
 You can also minimize your memory usage by using the `encrypt` and `decrypt` methods with `InputStream` and `OutputStream` parameters:
-
 ```java
 PPK.publicKey("/public.der")
    .encrypt(inputStream, outputStream);
 ```
-
 ```java
 PPK.privateKey("/private.der")
    .decrypt(inputStream, outputStream);
