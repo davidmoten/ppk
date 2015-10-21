@@ -26,6 +26,15 @@ public class PPKTest {
         String decrypted = ppk.decrypt(encrypted, Charsets.UTF_8);
         assertEquals(content, decrypted);
     }
+    
+    @Test
+    public void testEncryptAndDecryptWithDifferentPPKInstances() throws UnsupportedEncodingException {
+        PPK ppk = PPK.publicKey("/public.der").build();
+        PPK ppk2 = PPK.privateKey("/private.der").build();
+        byte[] encrypted = ppk.encrypt(content, Charsets.UTF_8);
+        String decrypted = ppk2.decrypt(encrypted, Charsets.UTF_8);
+        assertEquals(content, decrypted);
+    }
 
     @Test
     public void testEncryptAndDecryptSwitchOrder() throws UnsupportedEncodingException {
