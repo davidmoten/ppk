@@ -1,12 +1,14 @@
 package com.github.davidmoten.security;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.Test;
 
@@ -81,6 +83,39 @@ public class PPKTest {
     @Test(expected = PrivateKeyNotSetException.class)
     public void testPrivateKeyNotSetThrowsException() {
         PPK.publicKey("/public.der").decrypt(content.getBytes(), Charsets.UTF_8);
+    }
+
+    @Test
+    public void testRoundTrip() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        // result should be the same as bytes
+        byte[] result = ppk.decrypt(ppk.encrypt(content.getBytes()));
+        assertTrue(equal(content.getBytes(), result));
+    }
+
+    @Test
+    public void testEncryptionLength() {
+        String s = IntStream.range(0, 257).mapToObj(x -> "a").collect(Collectors.joining());
+        System.out.println(s);
+        System.out.println("Encryption length="
+                + PPK.publicKey("/public.der").encrypt(s, Charsets.UTF_8).length);
+    }
+
+    private static boolean equal(byte[] a, byte[] b) {
+        if (a == null && b == null)
+            return true;
+
+        if (a == null || b == null)
+            return false;
+
+        if (a.length != b.length)
+            return false;
+
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] != b[i])
+                return false;
+        }
+        return true;
     }
 
 }
