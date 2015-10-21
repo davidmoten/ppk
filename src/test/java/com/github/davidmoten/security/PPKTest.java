@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +27,10 @@ public class PPKTest {
         String decrypted = ppk.decrypt(encrypted, Charsets.UTF_8);
         assertEquals(content, decrypted);
     }
-    
+
     @Test
-    public void testEncryptAndDecryptWithDifferentPPKInstances() throws UnsupportedEncodingException {
+    public void testEncryptAndDecryptWithDifferentPPKInstances()
+            throws UnsupportedEncodingException {
         PPK ppk = PPK.publicKey("/public.der").build();
         PPK ppk2 = PPK.privateKey("/private.der").build();
         byte[] encrypted = ppk.encrypt(content, Charsets.UTF_8);
@@ -101,7 +103,7 @@ public class PPKTest {
         byte[] result = ppk.decrypt(ppk.encrypt(content.getBytes()));
         assertTrue(equal(content.getBytes(), result));
     }
-    
+
     @Test
     public void testRoundTripZeroLength() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
@@ -118,35 +120,76 @@ public class PPKTest {
         String s2 = ppk.decrypt(enc, Charsets.UTF_8);
         assertEquals(s, s2);
     }
-    
+
     @Test
     public void testRoundTripPureRSA() {
-    	PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-    	String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
-    	assertEquals(content, result);
-    }
-    
-    @Test
-    public void testRoundTripPureRSAInputMaxLength() {
-    	testRSA(214);
-    }
-    
-    @Test(expected=InputTooLongException.class)
-    public void testRoundTripPureRSAInputGreaterThanMaxLength() {
-    	testRSA(215);
-    }
-    
-    @Test
-    public void testRoundTripPureRSAZeroLength() {
-    	testRSA(0);
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+        assertEquals(content, result);
     }
 
-	private void testRSA(int length) {
-		PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-    	String content = IntStream.range(0,length).mapToObj(x ->"a").collect(Collectors.joining());
-    	String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
-    	assertEquals(content, result);
-	}
+    @Test
+    public void testRoundTripPureRSAInputMaxLength() {
+        testRSA(214);
+    }
+
+    @Test(expected = InputTooLongException.class)
+    public void testRoundTripPureRSAInputGreaterThanMaxLength() {
+        testRSA(215);
+    }
+
+    @Test
+    public void testRoundTripPureRSAZeroLength() {
+        testRSA(0);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPublicKeyFromResource() {
+        PPK.publicKey((String) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPublicKeyFromInputStream() {
+        PPK.publicKey((InputStream) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPublicKeyFromFile() {
+        PPK.publicKey((File) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPublicKeyFromByteArray() {
+        PPK.publicKey((byte[]) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPrivateKeyFromResource() {
+        PPK.privateKey((String) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPrivateKeyFromInputStream() {
+        PPK.privateKey((InputStream) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPrivateKeyFromFile() {
+        PPK.privateKey((File) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullPrivateKeyFromByteArray() {
+        PPK.privateKey((byte[]) null);
+    }
+
+    private void testRSA(int length) {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String content = IntStream.range(0, length).mapToObj(x -> "a")
+                .collect(Collectors.joining());
+        String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+        assertEquals(content, result);
+    }
 
     private static boolean equal(byte[] a, byte[] b) {
         if (a == null && b == null)

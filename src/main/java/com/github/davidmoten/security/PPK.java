@@ -90,6 +90,10 @@ public final class PPK {
         return new Builder().privateKey(file);
     }
 
+    public static final Builder privateKey(byte[] bytes) {
+        return new Builder().privateKey(bytes);
+    }
+
     public static final Builder publicKey(Class<?> cls, String resource) {
         return new Builder().publicKey(cls, resource);
     }
@@ -104,6 +108,10 @@ public final class PPK {
 
     public static final Builder publicKey(InputStream is) {
         return new Builder().publicKey(is);
+    }
+
+    public static final Builder publicKey(byte[] bytes) {
+        return new Builder().publicKey(bytes);
     }
 
     public static final class Builder {
