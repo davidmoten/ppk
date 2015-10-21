@@ -26,7 +26,7 @@ Add this maven dependency to your pom.xml:
 
 Implementation details
 -----------------------------
-This library uses a 2048 bit RSA public key to encrypt a generated (per instance of PPK) 128 bit AES key which is prepended with the AES encrypted message.
+This library uses a 2048 bit RSA public key to encrypt a generated (per instance of `PPK`) 128 bit AES key which is prepended with the AES encrypted message.
 
 Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input is 245 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough for most stuff.
 
