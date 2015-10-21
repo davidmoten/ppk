@@ -94,11 +94,12 @@ public class PPKTest {
     }
 
     @Test
-    public void testEncryptionLength() {
-        String s = IntStream.range(0, 257).mapToObj(x -> "a").collect(Collectors.joining());
-        System.out.println(s);
-        System.out.println("Encryption length="
-                + PPK.publicKey("/public.der").encrypt(s, Charsets.UTF_8).length);
+    public void testLongRoundTrip() {
+        String s = IntStream.range(0, 10000).mapToObj(x -> "a").collect(Collectors.joining());
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        byte[] enc = ppk.encrypt(s, Charsets.UTF_8);
+        String s2 = ppk.decrypt(enc, Charsets.UTF_8);
+        assertEquals(s, s2);
     }
 
     private static boolean equal(byte[] a, byte[] b) {
