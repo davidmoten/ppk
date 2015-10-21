@@ -35,7 +35,7 @@ The decrypt functionality knows about the format of the encrypted bytes and extr
 
 The output from the encryption method in this library is a byte sequence comprised of:
 
-* 1 byte = length in bytes of RSA encrypted AES key
+* 1 byte = length in bytes of RSA encrypted AES key - 1
 * the bytes of the RSA encrypted AES key
 * the bytes of the AES encrypted message
 

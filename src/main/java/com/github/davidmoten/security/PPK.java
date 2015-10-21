@@ -49,29 +49,49 @@ public final class PPK {
     private static final int AES_KEY_BYTES = AES_KEY_BITS / 8;
     private final Optional<Cipher> publicCipher;
     private final Optional<Cipher> privateCipher;
-    private final SecretKeySpec aesSecretKeySpec;
-    private final Cipher aesCipher;
-    private final byte[] aesEncodedSecretKey;
-    private Optional<byte[]> rsaEncryptedAesSecretKeyBytes;
+    private final AesEncryption aes;
+    private final boolean unique;
 
-    private PPK(Optional<Cipher> publicCipher, Optional<Cipher> privateCipher) {
+    private static class AesEncryption {
+        // used just for encryption not for decryption
+        final byte[] encodedSecretKey;
+
+        // used just for encryption not decryption
+        final SecretKeySpec secretKeySpec;
+
+        // used for encryption and decryption
+        final Cipher cipher;
+
+        final Optional<byte[]> rsaEncryptedSecretKeyBytes;
+
+        AesEncryption(Optional<Cipher> publicCipher) {
+            try {
+                KeyGenerator kgen = KeyGenerator.getInstance(AES);
+                kgen.init(AES_KEY_BITS);
+                SecretKey key = kgen.generateKey();
+                encodedSecretKey = key.getEncoded();
+                secretKeySpec = new SecretKeySpec(encodedSecretKey, AES);
+                cipher = Cipher.getInstance(AES);
+                if (publicCipher.isPresent()) {
+                    rsaEncryptedSecretKeyBytes = Optional
+                            .of(applyCipher(publicCipher.get(), encodedSecretKey));
+                    if (rsaEncryptedSecretKeyBytes.get().length > 256)
+                        throw new RuntimeException(
+                                "unexpected length=" + rsaEncryptedSecretKeyBytes.get().length);
+                } else
+                    rsaEncryptedSecretKeyBytes = Optional.empty();
+            } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private PPK(Optional<Cipher> publicCipher, Optional<Cipher> privateCipher, boolean unique) {
         this.publicCipher = publicCipher;
         this.privateCipher = privateCipher;
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance(AES);
-            kgen.init(AES_KEY_BITS);
-            SecretKey key = kgen.generateKey();
-            aesEncodedSecretKey = key.getEncoded();
-            aesSecretKeySpec = new SecretKeySpec(aesEncodedSecretKey, AES);
-            aesCipher = Cipher.getInstance(AES);
-            if (publicCipher.isPresent())
-                rsaEncryptedAesSecretKeyBytes = Optional
-                        .of(applyCipher(publicCipher.get(), aesEncodedSecretKey));
-            else
-                rsaEncryptedAesSecretKeyBytes = Optional.empty();
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RuntimeException(e);
-        }
+        this.aes = new AesEncryption(publicCipher);
+        this.unique = unique;
     }
 
     public static final Builder privateKey(Class<?> cls, String resource) {
@@ -117,6 +137,7 @@ public final class PPK {
     public static final class Builder {
         private Optional<Cipher> publicCipher = Optional.empty();
         private Optional<Cipher> privateCipher = Optional.empty();
+        private boolean unique = false;
 
         private Builder() {
             // prevent instantiation
@@ -220,8 +241,17 @@ public final class PPK {
             build().decrypt(is, os);
         }
 
+        public Builder unique(boolean value) {
+            this.unique = value;
+            return this;
+        }
+
+        public Builder unique() {
+            return unique(true);
+        }
+
         public PPK build() {
-            return new PPK(publicCipher, privateCipher);
+            return new PPK(publicCipher, privateCipher, unique);
         }
 
     }
@@ -231,12 +261,15 @@ public final class PPK {
         Preconditions.checkNotNull(os);
         if (publicCipher.isPresent()) {
             try {
-                if (rsaEncryptedAesSecretKeyBytes.get().length > 256)
-                    throw new RuntimeException(
-                            "unexpected length=" + rsaEncryptedAesSecretKeyBytes.get().length);
-                os.write(rsaEncryptedAesSecretKeyBytes.get().length - 1);
-                os.write(rsaEncryptedAesSecretKeyBytes.get());
-                encryptWithAes(is, os);
+                final AesEncryption aes;
+                if (unique) {
+                    aes = new AesEncryption(publicCipher);
+                } else {
+                    aes = this.aes;
+                }
+                os.write(aes.rsaEncryptedSecretKeyBytes.get().length - 1);
+                os.write(aes.rsaEncryptedSecretKeyBytes.get());
+                encryptWithAes(aes, is, os);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -264,12 +297,12 @@ public final class PPK {
         }
     }
 
-    private void encryptWithAes(InputStream is, OutputStream os) {
+    private static void encryptWithAes(AesEncryption aes, InputStream is, OutputStream os) {
         Preconditions.checkNotNull(is);
         Preconditions.checkNotNull(os);
         try {
-            aesCipher.init(Cipher.ENCRYPT_MODE, aesSecretKeySpec);
-            applyCipher(aesCipher, is, os);
+            aes.cipher.init(Cipher.ENCRYPT_MODE, aes.secretKeySpec);
+            applyCipher(aes.cipher, is, os);
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
         }
@@ -285,8 +318,8 @@ public final class PPK {
                 rsaEncryptedAesSecretKeyLength = is.read() + 1;
                 raw = new byte[rsaEncryptedAesSecretKeyLength];
                 is.read(raw);
-            } catch (IOException e1) {
-                throw new RuntimeException(e1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             ByteArrayInputStream rsaEncryptedAesSecretKeyInputStream = new ByteArrayInputStream(
                     raw);
@@ -299,8 +332,8 @@ public final class PPK {
             }
             SecretKeySpec aesKeySpec = new SecretKeySpec(aesKey, AES);
             try {
-                aesCipher.init(Cipher.DECRYPT_MODE, aesKeySpec);
-                applyCipher(aesCipher, is, os);
+                aes.cipher.init(Cipher.DECRYPT_MODE, aesKeySpec);
+                applyCipher(aes.cipher, is, os);
             } catch (InvalidKeyException e) {
                 throw new RuntimeException(e);
             }

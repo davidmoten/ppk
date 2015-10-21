@@ -122,6 +122,15 @@ public class PPKTest {
     }
 
     @Test
+    public void testLongRoundTripUnique() {
+        String s = IntStream.range(0, 10000).mapToObj(x -> "a").collect(Collectors.joining());
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").unique().build();
+        byte[] enc = ppk.encrypt(s, Charsets.UTF_8);
+        String s2 = ppk.decrypt(enc, Charsets.UTF_8);
+        assertEquals(s, s2);
+    }
+
+    @Test
     public void testRoundTripPureRSA() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
