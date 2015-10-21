@@ -101,6 +101,14 @@ public class PPKTest {
         byte[] result = ppk.decrypt(ppk.encrypt(content.getBytes()));
         assertTrue(equal(content.getBytes(), result));
     }
+    
+    @Test
+    public void testRoundTripZeroLength() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        // result should be the same as bytes
+        byte[] result = ppk.decrypt(ppk.encrypt("".getBytes()));
+        assertTrue(equal("".getBytes(), result));
+    }
 
     @Test
     public void testLongRoundTrip() {
@@ -110,6 +118,35 @@ public class PPKTest {
         String s2 = ppk.decrypt(enc, Charsets.UTF_8);
         assertEquals(s, s2);
     }
+    
+    @Test
+    public void testRoundTripPureRSA() {
+    	PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+    	String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+    	assertEquals(content, result);
+    }
+    
+    @Test
+    public void testRoundTripPureRSAInputMaxLength() {
+    	testRSA(214);
+    }
+    
+    @Test(expected=RuntimeException.class)
+    public void testRoundTripPureRSAInputGreaterThanMaxLength() {
+    	testRSA(215);
+    }
+    
+    @Test
+    public void testRoundTripPureRSAZeroLength() {
+    	testRSA(0);
+    }
+
+	private void testRSA(int length) {
+		PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+    	String content = IntStream.range(0,length).mapToObj(x ->"a").collect(Collectors.joining());
+    	String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+    	assertEquals(content, result);
+	}
 
     private static boolean equal(byte[] a, byte[] b) {
         if (a == null && b == null)

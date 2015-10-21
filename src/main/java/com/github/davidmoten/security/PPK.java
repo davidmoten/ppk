@@ -295,7 +295,26 @@ public final class PPK {
     public String decrypt(byte[] bytes, Charset charset) {
         return new String(decrypt(bytes), charset);
     }
+    
+    public byte[] encryptRSA(byte[] bytes) {
+    	if (bytes.length>214) {
+    		throw new RuntimeException("max length is 214 bytes. Use encrypt()/decrypt() instead.");
+    	}
+    	return applyCipher(publicCipher.get(), bytes);
+    }
+    
+    public byte[] decryptRSA(byte[] bytes) {
+    	return applyCipher(privateCipher.get(), bytes);
+    }
 
+    public byte[] encryptRSA(String string, Charset charset) {
+        return encryptRSA(string.getBytes(charset));
+    }
+
+    public String decryptRSA(byte[] bytes, Charset charset) {
+        return new String(decryptRSA(bytes), charset);
+    }
+    
     private static Cipher readPublicCipher(byte[] bytes) {
         try {
             X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(bytes);
