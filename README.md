@@ -19,7 +19,7 @@ Add this maven dependency to your pom.xml:
 <dependency>
     <groupId>com.github.davidmoten</groupId>
     <artifactId>ppk</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ Implementation details
 -----------------------------
 This library uses a 2048 bit RSA public key to encrypt a generated (per instance of `PPK`) 128 bit AES key which is prepended with the AES encrypted message.
 
-Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input is 245 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough for most stuff.
+Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input is 245 bytes (in our case 214 bytes). The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough for most stuff.
 
 The decrypt functionality knows about the format of the encrypted bytes and extracts the AES key using the RSA private key and then decodes the remaining bytes using the extracted AES key.
 
@@ -36,6 +36,8 @@ The output from the encryption method in this library is a byte sequence compris
 * 1 byte = length in bytes of RSA encrypted AES key
 * the bytes of the RSA encrypted AES key
 * the bytes of the AES encrypted message
+
+If you do just want to use RSA only on short input (<=214 bytes) the you can use `encryptRSA()` and `decryptRSA()` methods.
 
 Generate keys
 -----------------
