@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>ppk</artifactId>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>0.1.5</version>
 
     <name>${project.artifactId}</name>
     <description>Public private key encryption</description>
