@@ -9,6 +9,7 @@ Features
 * Builders and method chaining
 * `byte[]` encryption/decryption
 * `String` encryption/decryption
+* streaming encryption/decryption
 
 Maven dependency
 --------------------
