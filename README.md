@@ -30,7 +30,7 @@ This library uses a 2048 bit [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosyst
 
 Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input in our case is 214 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough. From [Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard#Known_attacks):
 
->As for now, there are no known practical attacks that would allow anyone to read correctly implemented AES encrypted data
+>As for now, there are no known practical attacks that would allow anyone to read correctly implemented AES [128 bit] encrypted data
 
 The decrypt functionality knows about the format of the encrypted bytes and extracts the AES key using the RSA private key and then decodes the remaining bytes using the extracted AES key.
 
