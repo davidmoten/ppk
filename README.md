@@ -114,5 +114,10 @@ PPK.privateKey("/private.der")
    .decrypt(inputStream, outputStream);
 ```
 
+Thread safety
+---------------
+
+Please note that `PPK` is not thread safe! Create a new one for each thread or use a pool.
+
 
 

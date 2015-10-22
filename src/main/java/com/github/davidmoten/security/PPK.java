@@ -29,6 +29,9 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 
+import net.jcip.annotations.NotThreadSafe;
+
+@NotThreadSafe
 public final class PPK {
 
     /*
