@@ -132,6 +132,15 @@ public class PPKTest {
     }
 
     @Test
+    public void testRoundTripUsingInputStreamsForKeys() {
+        PPK ppk = PPK.publicKey(PPKTest.class.getResourceAsStream("/public.der"))
+                .privateKey(PPKTest.class.getResourceAsStream("/private.der")).build();
+        // result should be the same as bytes
+        byte[] result = ppk.decrypt(ppk.encrypt(content.getBytes()));
+        assertTrue(Arrays.equals(content.getBytes(), result));
+    }
+
+    @Test
     public void testRoundTripBase64() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String b64 = ppk.encryptAsBase64(content);
