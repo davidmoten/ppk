@@ -25,6 +25,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
@@ -232,8 +233,36 @@ public final class PPK {
             return build().encrypt(string, charset);
         }
 
+        public byte[] encryptRsa(byte[] bytes) {
+            return build().encryptRsa(bytes);
+        }
+
+        public byte[] encryptRsa(String string, Charset charset) {
+            return build().encryptRsa(string, charset);
+        }
+
+        public String encryptAsHex(String string, Charset charset) {
+            return build().encryptAsHex(string, charset);
+        }
+
         public String decrypt(byte[] bytes, Charset charset) {
             return build().decrypt(bytes, charset);
+        }
+
+        public String decryptHex(String hex, Charset charset) {
+            return build().decryptHex(hex, charset);
+        }
+
+        public byte[] decryptRsa(byte[] bytes) {
+            return build().decryptRsa(bytes);
+        }
+
+        public String decryptRsa(byte[] bytes, Charset charset) {
+            return build().decryptRsa(bytes, charset);
+        }
+
+        public String decryptRsaHex(String hex, Charset charset) {
+            return build().decryptRsaHex(hex, charset);
         }
 
         public void encrypt(InputStream is, OutputStream os) {
@@ -278,6 +307,14 @@ public final class PPK {
             }
         } else
             throw new PublicKeyNotSetException();
+    }
+
+    public String decryptHex(String hex, Charset charset) {
+        return decrypt(DatatypeConverter.parseHexBinary(hex), charset);
+    }
+
+    public String encryptAsHex(String string, Charset charset) {
+        return DatatypeConverter.printHexBinary(encrypt(string, charset));
     }
 
     public byte[] encrypt(InputStream is) {
@@ -367,7 +404,7 @@ public final class PPK {
         return new String(decrypt(bytes), charset);
     }
 
-    public byte[] encryptRSA(byte[] bytes) {
+    public byte[] encryptRsa(byte[] bytes) {
         Preconditions.checkNotNull(bytes);
         if (bytes.length > 214) {
             throw new InputTooLongException(
@@ -376,21 +413,29 @@ public final class PPK {
         return applyCipher(publicCipher.get(), bytes);
     }
 
-    public byte[] decryptRSA(byte[] bytes) {
+    public byte[] decryptRsa(byte[] bytes) {
         Preconditions.checkNotNull(bytes);
         return applyCipher(privateCipher.get(), bytes);
     }
 
-    public byte[] encryptRSA(String string, Charset charset) {
+    public byte[] encryptRsa(String string, Charset charset) {
         Preconditions.checkNotNull(string);
         Preconditions.checkNotNull(charset);
-        return encryptRSA(string.getBytes(charset));
+        return encryptRsa(string.getBytes(charset));
     }
 
-    public String decryptRSA(byte[] bytes, Charset charset) {
+    public String encryptRsaAsHex(String string, Charset charset) {
+        return DatatypeConverter.printHexBinary(encryptRsa(string, charset));
+    }
+
+    public String decryptRsa(byte[] bytes, Charset charset) {
         Preconditions.checkNotNull(bytes);
         Preconditions.checkNotNull(charset);
-        return new String(decryptRSA(bytes), charset);
+        return new String(decryptRsa(bytes), charset);
+    }
+
+    public String decryptRsaHex(String hex, Charset charset) {
+        return decryptRsa(DatatypeConverter.parseHexBinary(hex), charset);
     }
 
     private static Cipher readPublicCipher(byte[] bytes) {

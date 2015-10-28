@@ -131,9 +131,27 @@ public class PPKTest {
     }
 
     @Test
+    public void testRoundTripHex() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String hex = ppk.encryptAsHex(content, Charsets.UTF_8);
+        String decoded = ppk.decryptHex(hex, Charsets.UTF_8);
+        assertEquals(content, decoded);
+    }
+
+    @Test
+    public void testRoundTripRSAHex() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String hex = ppk.encryptRsaAsHex(content, Charsets.UTF_8);
+        System.out.println(hex);
+        String decoded = ppk.decryptRsaHex(hex, Charsets.UTF_8);
+        System.out.println(decoded);
+        assertEquals(content, decoded);
+    }
+
+    @Test
     public void testRoundTripPureRSA() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+        String result = ppk.decryptRsa(ppk.encryptRsa(content, Charsets.UTF_8), Charsets.UTF_8);
         assertEquals(content, result);
     }
 
@@ -196,7 +214,7 @@ public class PPKTest {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String content = IntStream.range(0, length).mapToObj(x -> "a")
                 .collect(Collectors.joining());
-        String result = ppk.decryptRSA(ppk.encryptRSA(content, Charsets.UTF_8), Charsets.UTF_8);
+        String result = ppk.decryptRsa(ppk.encryptRsa(content, Charsets.UTF_8), Charsets.UTF_8);
         assertEquals(content, result);
     }
 
