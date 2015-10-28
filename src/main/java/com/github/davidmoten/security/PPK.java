@@ -1,5 +1,7 @@
 package com.github.davidmoten.security;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,6 +18,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.Optional;
 
 import javax.crypto.Cipher;
@@ -241,16 +244,24 @@ public final class PPK {
             return build().encryptRsa(string, charset);
         }
 
-        public String encryptAsHex(String string, Charset charset) {
-            return build().encryptAsHex(string, charset);
+        public String encryptAsHex(String string) {
+            return build().encryptAsHex(string);
+        }
+
+        public String encryptAsBase64(String string) {
+            return build().encryptAsBase64(string);
+        }
+
+        public String encryptRsaAsBase64(String string) {
+            return build().encryptRsaAsBase64(string);
         }
 
         public String decrypt(byte[] bytes, Charset charset) {
             return build().decrypt(bytes, charset);
         }
 
-        public String decryptHex(String hex, Charset charset) {
-            return build().decryptHex(hex, charset);
+        public String decryptHex(String hex) {
+            return build().decryptHex(hex);
         }
 
         public byte[] decryptRsa(byte[] bytes) {
@@ -261,8 +272,16 @@ public final class PPK {
             return build().decryptRsa(bytes, charset);
         }
 
-        public String decryptRsaHex(String hex, Charset charset) {
-            return build().decryptRsaHex(hex, charset);
+        public String decryptRsaHex(String hex) {
+            return build().decryptRsaHex(hex);
+        }
+
+        public String decryptRsaBase64(String base64) {
+            return build().decryptRsaBase64(base64);
+        }
+
+        public String decryptBase64(String base64) {
+            return build().decryptBase64(base64);
         }
 
         public void encrypt(InputStream is, OutputStream os) {
@@ -309,12 +328,20 @@ public final class PPK {
             throw new PublicKeyNotSetException();
     }
 
-    public String decryptHex(String hex, Charset charset) {
-        return decrypt(DatatypeConverter.parseHexBinary(hex), charset);
+    public String decryptHex(String hex) {
+        return decrypt(DatatypeConverter.parseHexBinary(hex), UTF_8);
     }
 
-    public String encryptAsHex(String string, Charset charset) {
-        return DatatypeConverter.printHexBinary(encrypt(string, charset));
+    public String encryptAsHex(String string) {
+        return DatatypeConverter.printHexBinary(encrypt(string, UTF_8));
+    }
+
+    public String encryptAsBase64(String string) {
+        return Base64.getEncoder().encodeToString(encrypt(string, UTF_8));
+    }
+
+    public String decryptBase64(String base64) {
+        return decrypt(Base64.getDecoder().decode(base64), UTF_8);
     }
 
     public byte[] encrypt(InputStream is) {
@@ -424,8 +451,12 @@ public final class PPK {
         return encryptRsa(string.getBytes(charset));
     }
 
-    public String encryptRsaAsHex(String string, Charset charset) {
-        return DatatypeConverter.printHexBinary(encryptRsa(string, charset));
+    public String encryptRsaAsHex(String string) {
+        return DatatypeConverter.printHexBinary(encryptRsa(string, UTF_8));
+    }
+
+    public String encryptRsaAsBase64(String string) {
+        return Base64.getEncoder().encodeToString(encryptRsa(string, UTF_8));
     }
 
     public String decryptRsa(byte[] bytes, Charset charset) {
@@ -434,8 +465,12 @@ public final class PPK {
         return new String(decryptRsa(bytes), charset);
     }
 
-    public String decryptRsaHex(String hex, Charset charset) {
-        return decryptRsa(DatatypeConverter.parseHexBinary(hex), charset);
+    public String decryptRsaHex(String hex) {
+        return decryptRsa(DatatypeConverter.parseHexBinary(hex), UTF_8);
+    }
+
+    public String decryptRsaBase64(String base64) {
+        return decryptRsa(Base64.getDecoder().decode(base64), UTF_8);
     }
 
     private static Cipher readPublicCipher(byte[] bytes) {

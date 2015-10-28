@@ -133,18 +133,32 @@ public class PPKTest {
     @Test
     public void testRoundTripHex() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String hex = ppk.encryptAsHex(content, Charsets.UTF_8);
-        String decoded = ppk.decryptHex(hex, Charsets.UTF_8);
+        String hex = ppk.encryptAsHex(content);
+        String decoded = ppk.decryptHex(hex);
         assertEquals(content, decoded);
     }
 
     @Test
     public void testRoundTripRSAHex() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String hex = ppk.encryptRsaAsHex(content, Charsets.UTF_8);
-        System.out.println(hex);
-        String decoded = ppk.decryptRsaHex(hex, Charsets.UTF_8);
-        System.out.println(decoded);
+        String hex = ppk.encryptRsaAsHex(content);
+        String decoded = ppk.decryptRsaHex(hex);
+        assertEquals(content, decoded);
+    }
+
+    @Test
+    public void testRoundTripBase64() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String b64 = ppk.encryptAsBase64(content);
+        String decoded = ppk.decryptBase64(b64);
+        assertEquals(content, decoded);
+    }
+
+    @Test
+    public void testRoundTripRsaBase64() {
+        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
+        String b64 = ppk.encryptRsaAsBase64(content);
+        String decoded = ppk.decryptRsaBase64(b64);
         assertEquals(content, decoded);
     }
 
