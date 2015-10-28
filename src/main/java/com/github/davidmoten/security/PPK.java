@@ -34,6 +34,10 @@ import com.google.common.io.ByteStreams;
 
 import net.jcip.annotations.NotThreadSafe;
 
+/**
+ * Stands for Public Private Key. Might also have been called PKC (Public Key
+ * Cryptography).
+ */
 @NotThreadSafe
 public final class PPK {
 
@@ -389,7 +393,7 @@ public final class PPK {
 
     public byte[] decrypt(byte[] bytes) {
         Preconditions.checkNotNull(bytes);
-        try (ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+        try (InputStream is = new ByteArrayInputStream(bytes);
                 ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             decrypt(is, os);
             return os.toByteArray();

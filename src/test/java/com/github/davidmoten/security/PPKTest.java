@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -101,7 +102,7 @@ public class PPKTest {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         // result should be the same as bytes
         byte[] result = ppk.decrypt(ppk.encrypt(content.getBytes()));
-        assertTrue(equal(content.getBytes(), result));
+        assertTrue(Arrays.equals(content.getBytes(), result));
     }
 
     @Test
@@ -109,7 +110,7 @@ public class PPKTest {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         // result should be the same as bytes
         byte[] result = ppk.decrypt(ppk.encrypt("".getBytes()));
-        assertTrue(equal("".getBytes(), result));
+        assertTrue(Arrays.equals("".getBytes(), result));
     }
 
     @Test
@@ -215,22 +216,4 @@ public class PPKTest {
         String result = ppk.decryptRsa(ppk.encryptRsa(content, Charsets.UTF_8), Charsets.UTF_8);
         assertEquals(content, result);
     }
-
-    private static boolean equal(byte[] a, byte[] b) {
-        if (a == null && b == null)
-            return true;
-
-        if (a == null || b == null)
-            return false;
-
-        if (a.length != b.length)
-            return false;
-
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i])
-                return false;
-        }
-        return true;
-    }
-
 }
