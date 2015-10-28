@@ -28,7 +28,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
@@ -244,10 +243,6 @@ public final class PPK {
             return build().encryptRsa(string, charset);
         }
 
-        public String encryptAsHex(String string) {
-            return build().encryptAsHex(string);
-        }
-
         public String encryptAsBase64(String string) {
             return build().encryptAsBase64(string);
         }
@@ -260,20 +255,12 @@ public final class PPK {
             return build().decrypt(bytes, charset);
         }
 
-        public String decryptHex(String hex) {
-            return build().decryptHex(hex);
-        }
-
         public byte[] decryptRsa(byte[] bytes) {
             return build().decryptRsa(bytes);
         }
 
         public String decryptRsa(byte[] bytes, Charset charset) {
             return build().decryptRsa(bytes, charset);
-        }
-
-        public String decryptRsaHex(String hex) {
-            return build().decryptRsaHex(hex);
         }
 
         public String decryptRsaBase64(String base64) {
@@ -326,14 +313,6 @@ public final class PPK {
             }
         } else
             throw new PublicKeyNotSetException();
-    }
-
-    public String decryptHex(String hex) {
-        return decrypt(DatatypeConverter.parseHexBinary(hex), UTF_8);
-    }
-
-    public String encryptAsHex(String string) {
-        return DatatypeConverter.printHexBinary(encrypt(string, UTF_8));
     }
 
     public String encryptAsBase64(String string) {
@@ -451,10 +430,6 @@ public final class PPK {
         return encryptRsa(string.getBytes(charset));
     }
 
-    public String encryptRsaAsHex(String string) {
-        return DatatypeConverter.printHexBinary(encryptRsa(string, UTF_8));
-    }
-
     public String encryptRsaAsBase64(String string) {
         return Base64.getEncoder().encodeToString(encryptRsa(string, UTF_8));
     }
@@ -463,10 +438,6 @@ public final class PPK {
         Preconditions.checkNotNull(bytes);
         Preconditions.checkNotNull(charset);
         return new String(decryptRsa(bytes), charset);
-    }
-
-    public String decryptRsaHex(String hex) {
-        return decryptRsa(DatatypeConverter.parseHexBinary(hex), UTF_8);
     }
 
     public String decryptRsaBase64(String base64) {

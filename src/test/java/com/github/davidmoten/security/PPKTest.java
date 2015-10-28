@@ -131,22 +131,6 @@ public class PPKTest {
     }
 
     @Test
-    public void testRoundTripHex() {
-        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String hex = ppk.encryptAsHex(content);
-        String decoded = ppk.decryptHex(hex);
-        assertEquals(content, decoded);
-    }
-
-    @Test
-    public void testRoundTripRSAHex() {
-        PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String hex = ppk.encryptRsaAsHex(content);
-        String decoded = ppk.decryptRsaHex(hex);
-        assertEquals(content, decoded);
-    }
-
-    @Test
     public void testRoundTripBase64() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String b64 = ppk.encryptAsBase64(content);
