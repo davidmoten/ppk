@@ -26,7 +26,7 @@ Add this maven dependency to your pom.xml:
 
 Implementation details
 -----------------------------
-This library uses a 2048 bit [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) public key to encrypt a generated (per instance of `PPK`) 128 bit [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) key which is prepended with the AES encrypted message. The RSA algorithm used is `RSA/ECB/OAEPWithSHA1AndMGF1Padding` which uses [Optimal Asymmetric Encryption Padding](https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding). This RSA variant has improved strength against [plaintext](https://en.wikipedia.org/wiki/Chosen-plaintext_attack) attack.
+This library uses a 2048 bit [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) public key to encrypt a generated (per instance of `PPK`) 128 bit [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) key which is prepended to the AES encrypted message. The RSA algorithm used is `RSA/ECB/OAEPWithSHA1AndMGF1Padding` which uses [Optimal Asymmetric Encryption Padding](https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding). This RSA variant has improved strength against [plaintext](https://en.wikipedia.org/wiki/Chosen-plaintext_attack) attack.
 
 Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input in our case is 214 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough. From [Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard#Known_attacks):
 
