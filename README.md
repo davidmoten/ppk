@@ -125,7 +125,7 @@ String base64 =
        .encryptAsBase64("mypassword");
 ```
 
-To decrypt the Base64 string as a string:
+To decrypt:
 ```java
 String password = 
     PPK.privateKey("/private.der")
