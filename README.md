@@ -20,7 +20,7 @@ Add this maven dependency to your pom.xml:
 <dependency>
     <groupId>com.github.davidmoten</groupId>
     <artifactId>ppk</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.8</version>
 </dependency>
 ```
 
