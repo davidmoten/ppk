@@ -115,6 +115,19 @@ PPK.privateKey("/private.der")
    .decrypt(inputStream, outputStream);
 ```
 
+Base64
+---------------
+A common use case is to encrypt a text password and store it encrypted encoded in [Base64](https://en.wikipedia.org/wiki/Base64). *ppk* has convenience methods to support this:
+
+```java
+String base64 = PPK.publicKey("/public.der").encryptAsBase64("mypassword");
+```
+
+To decrypt the Base64 string as a string:
+```java
+String password = PPK.privateKey("/private.der").decryptBase64(base64);
+```
+
 Thread safety
 ---------------
 
