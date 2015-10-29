@@ -29,9 +29,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.google.common.base.Preconditions;
-import com.google.common.io.ByteStreams;
-
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -155,20 +152,12 @@ public final class PPK {
 
         public Builder publicKey(InputStream is) {
             Preconditions.checkNotNull(is);
-            try {
-                return publicKey(ByteStreams.toByteArray(is));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            return publicKey(Bytes.from(is));
         }
 
         public Builder privateKey(InputStream is) {
             Preconditions.checkNotNull(is);
-            try {
-                return privateKey(ByteStreams.toByteArray(is));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            return privateKey(Bytes.from(is));
         }
 
         public Builder publicKey(byte[] bytes) {
@@ -329,11 +318,7 @@ public final class PPK {
 
     public byte[] encrypt(InputStream is) {
         Preconditions.checkNotNull(is);
-        try {
-            return encrypt(ByteStreams.toByteArray(is));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return encrypt(Bytes.from(is));
     }
 
     public byte[] encrypt(byte[] bytes) {
