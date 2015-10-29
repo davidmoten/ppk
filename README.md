@@ -89,7 +89,7 @@ byte[] encrypted =
     PPK.publicKey(new File("/home/me/.keys/public.der"))
        .encrypt(content, Charsets.UTF_8);
 ```
-If you are encrypting many things then its more efficient to use a single PPK object:
+If you are encrypting many things then its more efficient to use a single PPK object (though the AES secret key will be the same for all encryptions unless you call `.unique()` in the builder):
 ```java
 PPK ppk = PPK.publicKey("/public.der").build();
 List<byte[]> encrypted = 
