@@ -117,7 +117,7 @@ PPK.privateKey("/private.der")
 
 Base64
 ---------------
-A common use case is to encrypt a text password and store it encrypted encoded in [Base64](https://en.wikipedia.org/wiki/Base64). *ppk* has convenience methods to support this:
+A common use case is to encrypt a text password and store it encrypted encoded in [Base64](https://en.wikipedia.org/wiki/Base64) (in a configuration file for example). *ppk* has convenience methods to support this:
 
 ```java
 String base64 = 
