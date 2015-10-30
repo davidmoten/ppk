@@ -55,6 +55,15 @@ openssl pkcs8 -topk8 -nocrypt -in keypair.pem -outform DER -out private.der
 ```
 Now move `public.der` and `private.der` somewhere so you can access them with your code (you can delete `keypair.pem`).
 
+You can instead use the provided bash script `generate-keys.sh`:
+
+```bash
+./generate-keys.sh
+```
+
+which writes `public.der` and `private.der` to the current directory.
+
+
 Examples
 ---------------
 Encrypt a string:
