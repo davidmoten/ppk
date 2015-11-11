@@ -15,7 +15,7 @@ final class Bytes {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             int nRead;
             byte[] buffer = new byte[1024];
-            while ((nRead = is.read(buffer, 0, buffer.length)) != -1) {
+            while ((nRead = is.read(buffer)) != -1) {
                 bytes.write(buffer, 0, nRead);
             }
             return bytes.toByteArray();
