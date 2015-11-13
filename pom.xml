@@ -98,6 +98,26 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<!-- Deploy the web site -->
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.12</version>
+				<executions>
+					<execution>
+						<goals>
+						    <goal>site</goal>
+						</goals>
+						<phase>site</phase>
+						<configuration>
+						    <server>github</server>
+						    <message>Deploy site for ${project.artifactId}-${project.version}</message>
+						    <merge>true</merge>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
         </plugins>
     </build>
 </project>
