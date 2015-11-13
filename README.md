@@ -11,6 +11,8 @@ Features
 * `String` encryption/decryption
 * streaming encryption/decryption
 
+Maven [site](http://davidmoten.github.io/ppk/) including javadoc.
+
 Maven dependency
 --------------------
 This library is available on Maven Central.
