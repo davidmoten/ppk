@@ -11,7 +11,7 @@ Features
 * `String` encryption/decryption
 * streaming encryption/decryption
 
-Maven [site](http://davidmoten.github.io/ppk/) including javadoc.
+Maven [site](http://davidmoten.github.io/ppk/) including [javadoc](http://davidmoten.github.io/ppk/apidocs/index.html).
 
 Maven dependency
 --------------------
