@@ -139,7 +139,7 @@ String base64 =
 System.out.println(base64);
 ```
 
-which produces this output:
+which produces this output (364 characters):
 ```
 /66kjqBF6C99vHTQmE2yk4HRD+3c9cNlCg3PO8fW4w7GvZokV0P7CUnWzI2SQuD7sOnEeAjMWfQZePpNk2cEVNMyKJUt2Gs3N92sgXjJra0fb7qqmQhWBWAKv/3avKO5SE3WcHT1E053tgs7lqiMoZEyZBdvqUY645UPnfQETMsBcXt+1fdo8udhdN+BibCJSJWZi50LziEBMllAJssY6DP8XFtZad7iknee32g+waS71ALT3DE/QaJhByeakKXjUhZKlH3zYMcNjF9/kuv1ORAgNriIS3mb7QDXwuvdFkAA3/7x3FE6fdYz2htsPNiEpHI8sYLRlbAsbZO2BrvKV6l7kl0W96bFG4BOoKaZIhR8
 ```
