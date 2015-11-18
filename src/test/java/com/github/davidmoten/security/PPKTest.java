@@ -105,6 +105,12 @@ public class PPKTest {
     }
 
     @Test
+    public void testEncryptAsBase64() {
+        String value = PPK.publicKey("/public.der").encryptAsBase64("mypassword");
+        System.out.println(value);
+    }
+
+    @Test
     public void testRoundTripZeroLength() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         // result should be the same as bytes
