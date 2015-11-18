@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,7 +25,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <scm.url>scm:git:https://github.com/davidmoten/ppk.git</scm.url>
         <m3.site.version>3.4</m3.site.version>
-        
+
         <cobertura.version>2.7</cobertura.version>
         <checkstyle.version>2.13</checkstyle.version>
         <findbugs.version>3.0.1</findbugs.version>
@@ -93,7 +94,7 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>com.github.davidmoten</groupId>
             <artifactId>junit-extras</artifactId>
@@ -112,25 +113,25 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-			<plugin>
-				<!-- Deploy the web site -->
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.12</version>
-				<executions>
-					<execution>
-						<goals>
-						    <goal>site</goal>
-						</goals>
-						<phase>site</phase>
-						<configuration>
-						    <server>github</server>
-						    <message>Deploy site for ${project.artifactId}-${project.version}</message>
-						    <merge>true</merge>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <!-- Deploy the web site to github -->
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <server>github</server>
+                            <message>Deploy site for ${project.artifactId}-${project.version}</message>
+                            <merge>true</merge>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${m3.site.version}</version>
@@ -146,7 +147,7 @@
 
         </plugins>
     </build>
- <reporting>
+    <reporting>
         <excludeDefaults>true</excludeDefaults>
         <outputDirectory>${project.build.directory}/site</outputDirectory>
         <plugins>
