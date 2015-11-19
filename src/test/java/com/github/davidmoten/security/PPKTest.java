@@ -224,6 +224,16 @@ public class PPKTest {
         PPK.privateKey((byte[]) null);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testPublicKeyResourceDoesNotExist() {
+        PPK.publicKey("/doesnotexist.key").encryptAsBase64(content);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testPublicKeyFileDoesNotExist() {
+        PPK.publicKey(new File("doesnotexist.key")).encryptAsBase64(content);
+    }
+
     private void testRSA(int length) {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String content = IntStream.range(0, length).mapToObj(x -> "a")
