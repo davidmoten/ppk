@@ -86,7 +86,6 @@ byte[] publicKey = kp.publicKeyDer();
 	<version>VERSION_HERE</version>
 	<executions>
 		<execution>
-			<id>create</id>
 			<goals>
 				<goal>create</goal>
 			</goals>
