@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -541,6 +542,18 @@ public final class PPK {
         while ((i = is.read(b)) != -1) {
             os.write(b, 0, i);
         }
+    }
+    
+    public static KeyPair createKeyPair() {
+    	KeyPairGenerator gen;
+		try {
+			gen = KeyPairGenerator.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+    	gen.initialize(2048);
+    	java.security.KeyPair kp = gen.generateKeyPair();
+    	return new KeyPair(kp.getPrivate().getEncoded(), kp.getPublic().getEncoded());
     }
 
 }
