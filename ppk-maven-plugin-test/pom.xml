@@ -55,6 +55,18 @@
 							<publicKeyFile>${project.build.directory}/public.der</publicKeyFile>
 						</configuration>
 					</execution>
+					<execution>
+						<id>create-b64</id>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<privateKeyFile>${project.build.directory}/private.der.b64</privateKeyFile>
+							<publicKeyFile>${project.build.directory}/public.der.b64</publicKeyFile>
+							<format>base64</format>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

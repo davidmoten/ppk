@@ -45,7 +45,7 @@ public final class CreateKeyPairMojo extends AbstractMojo {
 
     private byte[] format(byte[] bytes, String format) throws MojoExecutionException {
         if (Constants.BASE64.equalsIgnoreCase(format)) {
-            return Base64.decodeBase64(bytes);
+            return Base64.encodeBase64(bytes);
         } else if (Constants.DER.equalsIgnoreCase(format)) {
             return bytes;
         } else 
