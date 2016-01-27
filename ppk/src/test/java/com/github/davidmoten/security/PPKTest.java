@@ -238,12 +238,12 @@ public class PPKTest {
 
     @Test
     public void testCreateKeyPair() {
-    	KeyPair kp = PPK.createKeyPair();
-    	byte[] bytes = PPK.publicKey(kp.publicKey()).encrypt(content, StandardCharsets.UTF_8);
-        String text = PPK.privateKey(kp.privateKey()).decrypt(bytes,StandardCharsets.UTF_8);
+        KeyPair kp = PPK.createKeyPair();
+        byte[] bytes = PPK.publicKey(kp.publicKey()).encrypt(content, StandardCharsets.UTF_8);
+        String text = PPK.privateKey(kp.privateKey()).decrypt(bytes, StandardCharsets.UTF_8);
         assertEquals(content, text);
     }
-    
+
     private void testRSA(int length) {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
         String content = IntStream.range(0, length).mapToObj(x -> "a")
@@ -252,5 +252,5 @@ public class PPKTest {
                 StandardCharsets.UTF_8);
         assertEquals(content, result);
     }
-    
+
 }

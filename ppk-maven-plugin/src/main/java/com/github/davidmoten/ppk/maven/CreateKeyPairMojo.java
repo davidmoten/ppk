@@ -15,29 +15,29 @@ import com.github.davidmoten.security.KeyPair;
 import com.github.davidmoten.security.PPK;
 
 @Mojo(name = "create")
-public final class CreateKeyPairMojo extends AbstractMojo{
+public final class CreateKeyPairMojo extends AbstractMojo {
 
-	@Parameter(property = "privateKeyFile")
+    @Parameter(property = "privateKeyFile")
     private File privateKeyFile;
-	
-	@Parameter(property = "publicKeyFile")
+
+    @Parameter(property = "publicKeyFile")
     private File publicKeyFile;
-	
-	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		KeyPair kp = PPK.createKeyPair();
-		try {
-			privateKeyFile.getParentFile().mkdirs();
-			Files.write(privateKeyFile.toPath(), kp.privateKey());
-		} catch (IOException e) {
-			throw new MojoExecutionException("could not create private key", e);
-		}
-		try {
-			publicKeyFile.getParentFile().mkdirs();
-			Files.write(publicKeyFile.toPath(), kp.publicKey());
-		} catch (IOException e) {
-			throw new MojoExecutionException("could not create public key", e);
-		}
-	}
+
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        KeyPair kp = PPK.createKeyPair();
+        try {
+            privateKeyFile.getParentFile().mkdirs();
+            Files.write(privateKeyFile.toPath(), kp.privateKey());
+        } catch (IOException e) {
+            throw new MojoExecutionException("could not create private key", e);
+        }
+        try {
+            publicKeyFile.getParentFile().mkdirs();
+            Files.write(publicKeyFile.toPath(), kp.publicKey());
+        } catch (IOException e) {
+            throw new MojoExecutionException("could not create public key", e);
+        }
+    }
 
 }
