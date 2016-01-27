@@ -20,16 +20,16 @@ import com.github.davidmoten.security.PPK;
 @Mojo(name = "encrypt")
 public final class EncryptMojo extends AbstractMojo {
 
-    @Parameter(property = "publicKeyFile")
+    @Parameter(property = "publicKeyFile", required = true)
     private File publicKeyFile;
     
-    @Parameter(property = "format", defaultValue="der")
+    @Parameter(property = "format", defaultValue="der", required = false)
     private String format = "der";
 
-    @Parameter(property = "inputFile")
+    @Parameter(property = "inputFile", required = true)
     private File inputFile;
 
-    @Parameter(property = "outputFile")
+    @Parameter(property = "outputFile", required = true)
     private File outputFile;
 
     @Override

@@ -21,17 +21,17 @@ import com.github.davidmoten.security.PPK;
 public final class DecryptMojo extends AbstractMojo {
 
 
-    @Parameter(property = "privateKeyFile")
+    @Parameter(property = "privateKeyFile", required = true)
     private File privateKeyFile;
 
-    @Parameter(property = "format", defaultValue="der")
+    @Parameter(property = "format", defaultValue="der", required = false)
     private String format = "der";
    
 
-    @Parameter(property = "inputFile")
+    @Parameter(property = "inputFile", required = true)
     private File inputFile;
 
-    @Parameter(property = "outputFile")
+    @Parameter(property = "outputFile", required = true)
     private File outputFile;
 
     @Override
