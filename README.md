@@ -79,7 +79,26 @@ byte[] publicKey = kp.publicKeyDer();
 ```
 
 ### Generating keys with ppk-maven-plugin
-TODO
+```xml
+<plugin>
+	<groupId>com.github.davidmoten</groupId>
+	<artifactId>ppk-maven-plugin</artifactId>
+	<version>version_here</version>
+	<executions>
+		<execution>
+			<id>create</id>
+			<goals>
+				<goal>create</goal>
+			</goals>
+			<phase>generate-resources</phase>
+			<configuration>
+				<privateKeyFile>${project.build.directory}/private.der</privateKeyFile>
+				<publicKeyFile>${project.build.directory}/public.der</publicKeyFile>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
+```
 
 
 Examples
