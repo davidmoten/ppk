@@ -46,9 +46,11 @@ The output from the encryption method in this library is a byte sequence compris
 
 If you do just want to use RSA on short input (<=214 bytes) you can use `PPK.encryptRSA()` and `PPK.decryptRSA()` methods.
 
-Generate keys
+Generating keys
 -----------------
-You'll need public and private key files. They can be generated using `openssl`:
+You'll need public and private key files. They can be generated using `openssl`, java, or a maven plugin:
+
+### Generating keys with OpenSSL
 
 ```bash
 openssl genrsa -out keypair.pem 2048
@@ -64,6 +66,20 @@ You can instead use the provided bash script `generate-keys.sh`:
 ```
 
 which writes `public.der` and `private.der` to the current directory.
+
+### Generating keys with Java
+
+```java
+KeyPair kp = PPK.createKeyPair();
+byte[] privateKey = kp.privateKeyDer();
+byte[] publicKey = kp.publicKeyDer();
+//you might write those byte arrays to files to get 
+// private.der and public.der
+...
+```
+
+### Generating keys with ppk-maven-plugin
+TODO
 
 
 Examples
