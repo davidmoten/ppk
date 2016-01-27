@@ -22,6 +22,9 @@ public final class EncryptMojo extends AbstractMojo {
 
     @Parameter(property = "publicKeyFile")
     private File publicKeyFile;
+    
+    @Parameter(property = "format", defaultValue="der")
+    private String format = "der";
 
     @Parameter(property = "inputFile")
     private File inputFile;
@@ -34,6 +37,12 @@ public final class EncryptMojo extends AbstractMojo {
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));) {
             PPK.publicKey(publicKeyFile).encrypt(is, os);
+            if (Constants.DER.equalsIgnoreCase(format)) {
+                PPK.publicKey(publicKeyFile).decrypt(is, os);
+            } else if (Constants.BASE64.equalsIgnoreCase(format)) {
+                PPK.privateKeyB64(publicKeyFile).decrypt(is, os);
+            } else 
+                throw new MojoExecutionException("format parameter not recognized: "+ format);
         } catch (IOException e) {
             throw new MojoExecutionException("encrypt failed: " + e.getMessage(), e);
         }

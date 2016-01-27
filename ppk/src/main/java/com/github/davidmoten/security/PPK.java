@@ -150,6 +150,14 @@ public final class PPK {
     public static final Builder privateKey(File file) {
         return new Builder().privateKey(file);
     }
+    
+    public static final Builder privateKeyB64(File file) {
+        return new Builder().privateKeyB64(file);
+    }
+    
+    public static final Builder publicKeyB64(File file) {
+        return new Builder().publicKeyB64(file);
+    }
 
     /**
      * Returns a PPK builder having read the private key from the given byte
@@ -208,6 +216,23 @@ public final class PPK {
 
         private Builder() {
             // prevent instantiation
+        }
+
+        public Builder publicKeyB64(File file) {
+            return publicKey(bytesFromB64(file));
+        }
+
+        private static byte[] bytesFromB64(File file) {
+            try {
+                byte[] b64 = Files.readAllBytes(file.toPath());
+                return Base64.getDecoder().decode(b64);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public Builder privateKeyB64(File file) {
+            return privateKey(bytesFromB64(file));
         }
 
         public Builder publicKey(InputStream is) {
