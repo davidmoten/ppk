@@ -27,6 +27,7 @@
                 <version>${project.parent.version}</version>
                 <executions>
                     <execution>
+                        <id>decrypt</id>
                         <goals>
                             <goal>decrypt</goal>
                         </goals>
@@ -35,6 +36,17 @@
                             <privateKeyFile>src/test/resources/private.der</privateKeyFile>
                             <inputFile>src/test/resources/temp.enc</inputFile>
                             <outputFile>${project.build.directory}/temp.txt</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create</id>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <privateKeyFile>${project.build.directory}/private.der</privateKeyFile>
+	                        <publicKeyFile>${project.build.directory}/public.der</publicKeyFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -57,6 +69,7 @@
                                         <versionRange>[0.1.9-SNAPSHOT,)</versionRange>
                                         <goals>
                                             <goal>decrypt</goal>
+                                            <goal>create</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>

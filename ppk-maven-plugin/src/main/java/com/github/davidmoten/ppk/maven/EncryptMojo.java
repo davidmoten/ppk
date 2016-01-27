@@ -22,7 +22,7 @@ import com.github.davidmoten.security.PPK;
 public final class EncryptMojo extends AbstractMojo {
 
     @Parameter(property = "publicKeyFile")
-    private String publicKeyFile;
+    private File publicKeyFile;
 
     @Parameter(property = "inputFile")
     private File inputFile;
