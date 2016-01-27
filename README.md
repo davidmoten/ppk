@@ -83,7 +83,7 @@ byte[] publicKey = kp.publicKeyDer();
 <plugin>
 	<groupId>com.github.davidmoten</groupId>
 	<artifactId>ppk-maven-plugin</artifactId>
-	<version>version_here</version>
+	<version>VERSION_HERE</version>
 	<executions>
 		<execution>
 			<id>create</id>
