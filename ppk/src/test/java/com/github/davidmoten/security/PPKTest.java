@@ -239,8 +239,8 @@ public class PPKTest {
     @Test
     public void testCreateKeyPair() {
         KeyPair kp = PPK.createKeyPair();
-        byte[] bytes = PPK.publicKey(kp.publicKey()).encrypt(content, StandardCharsets.UTF_8);
-        String text = PPK.privateKey(kp.privateKey()).decrypt(bytes, StandardCharsets.UTF_8);
+        byte[] bytes = PPK.publicKey(kp.publicKeyDer()).encrypt(content, StandardCharsets.UTF_8);
+        String text = PPK.privateKey(kp.privateKeyDer()).decrypt(bytes, StandardCharsets.UTF_8);
         assertEquals(content, text);
     }
 

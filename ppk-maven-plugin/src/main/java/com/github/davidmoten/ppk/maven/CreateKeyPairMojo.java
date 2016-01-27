@@ -3,7 +3,6 @@ package com.github.davidmoten.ppk.maven;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -28,13 +27,13 @@ public final class CreateKeyPairMojo extends AbstractMojo {
         KeyPair kp = PPK.createKeyPair();
         try {
             privateKeyFile.getParentFile().mkdirs();
-            Files.write(privateKeyFile.toPath(), kp.privateKey());
+            Files.write(privateKeyFile.toPath(), kp.privateKeyDer());
         } catch (IOException e) {
             throw new MojoExecutionException("could not create private key", e);
         }
         try {
             publicKeyFile.getParentFile().mkdirs();
-            Files.write(publicKeyFile.toPath(), kp.publicKey());
+            Files.write(publicKeyFile.toPath(), kp.publicKeyDer());
         } catch (IOException e) {
             throw new MojoExecutionException("could not create public key", e);
         }

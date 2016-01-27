@@ -2,20 +2,20 @@ package com.github.davidmoten.security;
 
 public final class KeyPair {
 
-    private final byte[] privateKey;
-    private final byte[] publicKey;
+    private final byte[] privateKeyDer;
+    private final byte[] publicKeyDer;
 
-    public KeyPair(byte[] privateKey, byte[] publicKey) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
+    public KeyPair(byte[] privateKeyDer, byte[] publicKeyDer) {
+        this.privateKeyDer = privateKeyDer;
+        this.publicKeyDer = publicKeyDer;
     }
 
-    public byte[] privateKey() {
-        return privateKey;
+    public byte[] privateKeyDer() {
+        return privateKeyDer;
     }
 
-    public byte[] publicKey() {
-        return publicKey;
+    public byte[] publicKeyDer() {
+        return publicKeyDer;
     }
 
 }
