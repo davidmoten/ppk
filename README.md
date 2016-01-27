@@ -90,7 +90,6 @@ byte[] publicKey = kp.publicKeyDer();
 			<goals>
 				<goal>create</goal>
 			</goals>
-			<phase>generate-resources</phase>
 			<configuration>
 				<privateKeyFile>${project.build.directory}/private.der</privateKeyFile>
 				<publicKeyFile>${project.build.directory}/public.der</publicKeyFile>
@@ -98,6 +97,12 @@ byte[] publicKey = kp.publicKeyDer();
 		</execution>
 	</executions>
 </plugin>
+```
+
+To call:
+
+```bash
+mvn ppk:create
 ```
 
 
