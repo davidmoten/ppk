@@ -222,15 +222,6 @@ public final class PPK {
             return publicKey(bytesFromB64(file));
         }
 
-        private static byte[] bytesFromB64(File file) {
-            try {
-                byte[] b64 = Files.readAllBytes(file.toPath());
-                return Base64.getDecoder().decode(b64);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         public Builder privateKeyB64(File file) {
             return privateKey(bytesFromB64(file));
         }
@@ -581,4 +572,13 @@ public final class PPK {
         return new KeyPair(kp.getPrivate().getEncoded(), kp.getPublic().getEncoded());
     }
 
+    private static byte[] bytesFromB64(File file) {
+        try {
+            byte[] b64 = Files.readAllBytes(file.toPath());
+            return Base64.getDecoder().decode(b64);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

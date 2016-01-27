@@ -41,9 +41,9 @@ public final class DecryptMojo extends AbstractMojo {
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));) {
             if (Constants.DER.equalsIgnoreCase(format)) {
-                PPK.privateKey(privateKeyFile).encrypt(is, os);
+                PPK.privateKey(privateKeyFile).decrypt(is, os);
             } else if (Constants.BASE64.equalsIgnoreCase(format)) {
-                PPK.privateKeyB64(privateKeyFile).encrypt(is, os);
+                PPK.privateKeyB64(privateKeyFile).decrypt(is, os);
             } else 
                 throw new MojoExecutionException("format parameter not recognized: "+ format);
         } catch (IOException e) {
