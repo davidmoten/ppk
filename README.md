@@ -42,7 +42,7 @@ The output from the encryption method in this library is a byte sequence compris
 * the bytes of the RSA encrypted AES key
 * the bytes of the AES encrypted message
 
-<img src="src/docs/format.png?raw=true" /> 
+<img src="ppk/src/docs/format.png?raw=true" /> 
 
 If you do just want to use RSA on short input (<=214 bytes) you can use `PPK.encryptRSA()` and `PPK.decryptRSA()` methods.
 
