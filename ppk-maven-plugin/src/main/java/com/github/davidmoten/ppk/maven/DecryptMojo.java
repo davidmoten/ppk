@@ -22,7 +22,7 @@ import com.github.davidmoten.security.PPK;
 public final class DecryptMojo extends AbstractMojo {
 
     @Parameter(property = "privateKeyFile")
-    private String privateKeyFile;
+    private File privateKeyFile;
 
     @Parameter(property = "inputFile")
     private File inputFile;
@@ -32,6 +32,8 @@ public final class DecryptMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        getLog().info("inputFile exists " + inputFile.exists());
+        outputFile.getParentFile().mkdirs();
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));) {
             PPK.privateKey(privateKeyFile).decrypt(is, os);

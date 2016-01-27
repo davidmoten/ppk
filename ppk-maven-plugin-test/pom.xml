@@ -24,6 +24,19 @@
                 <groupId>${project.parent.groupId}</groupId>
                 <artifactId>ppk-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>decrypt</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <privateKeyFile>src/test/resources/private.der</privateKeyFile>
+                            <inputFile>src/test/resources/temp.enc</inputFile>
+                            <outputFile>${project.build.directory}/temp.txt</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

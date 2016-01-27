@@ -5,9 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +30,11 @@ public class PPKTest {
     }
 
     @Test
-    public void testEncryptAndDecryptWithDifferentPPKInstances()
-            throws UnsupportedEncodingException {
+    public void testEncryptAndDecryptWithDifferentPPKInstances() throws IOException {
         PPK ppk = PPK.publicKey("/public.der").build();
         PPK ppk2 = PPK.privateKey("/private.der").build();
         byte[] encrypted = ppk.encrypt(content, StandardCharsets.UTF_8);
+        Files.write(new File("target/temp.enc").toPath(), encrypted);
         String decrypted = ppk2.decrypt(encrypted, StandardCharsets.UTF_8);
         assertEquals(content, decrypted);
     }
