@@ -37,10 +37,8 @@ public final class DecryptMojo extends AbstractMojo {
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));) {
             PPK.privateKey(privateKeyFile).decrypt(is, os);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MojoExecutionException("decryption failed: " + e.getMessage(), e);
         }
     }
 

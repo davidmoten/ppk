@@ -35,7 +35,7 @@ public final class CreateKeyPairMojo extends AbstractMojo {
             publicKeyFile.getParentFile().mkdirs();
             Files.write(publicKeyFile.toPath(), kp.publicKeyDer());
         } catch (IOException e) {
-            throw new MojoExecutionException("could not create public key", e);
+            throw new MojoExecutionException("could not create public key: "+ e.getMessage(), e);
         }
     }
 

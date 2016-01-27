@@ -35,10 +35,8 @@ public final class EncryptMojo extends AbstractMojo {
         try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile));
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));) {
             PPK.publicKey(publicKeyFile).encrypt(is, os);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MojoExecutionException("encrypt failed: " + e.getMessage(), e);
         }
     }
 
