@@ -26,26 +26,6 @@ Add this maven dependency to your pom.xml:
 </dependency>
 ```
 
-Implementation details
------------------------------
-This library uses a 2048 bit [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) public key to encrypt a generated (per instance of `PPK`) 128 bit [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) key which is prepended to the AES encrypted message. The RSA algorithm used is `RSA/ECB/OAEPWithSHA1AndMGF1Padding` which uses [Optimal Asymmetric Encryption Padding](https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding). This RSA variant has improved strength against [plaintext](https://en.wikipedia.org/wiki/Chosen-plaintext_attack) attack.
-
-Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input in our case is 214 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough. From [Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard#Known_attacks):
-
->As for now, there are no known practical attacks that would allow anyone to read correctly implemented AES [128 bit] encrypted data
-
-The decrypt functionality knows about the format of the encrypted bytes and extracts the AES key using the RSA private key and then decodes the remaining bytes using the extracted AES key.
-
-The output from the encryption method in this library is a byte sequence comprised of:
-
-* 1 byte = length in bytes of RSA encrypted AES key - 1
-* the bytes of the RSA encrypted AES key
-* the bytes of the AES encrypted message
-
-<img src="ppk/src/docs/format.png?raw=true" /> 
-
-If you do just want to use RSA on short input (<=214 bytes) you can use `PPK.encryptRSA()` and `PPK.decryptRSA()` methods.
-
 Generating keys
 -----------------
 You'll need public and private key files. They can be generated using `openssl`, java, or a maven plugin:
@@ -195,5 +175,25 @@ Thread safety
 
 Please note that `PPK` is not thread safe! Create a new one for each thread or use a pool.
 
+
+Implementation details
+-----------------------------
+This library uses a 2048 bit [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) public key to encrypt a generated (per instance of `PPK`) 128 bit [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) key which is prepended to the AES encrypted message. The RSA algorithm used is `RSA/ECB/OAEPWithSHA1AndMGF1Padding` which uses [Optimal Asymmetric Encryption Padding](https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding). This RSA variant has improved strength against [plaintext](https://en.wikipedia.org/wiki/Chosen-plaintext_attack) attack.
+
+Note that RSA can't be used to encrypt a message of arbitrary length because the maximum size of input in our case is 214 bytes. The AES key satisfies this criterion though, that's why it's used here. 256 bit AES is not used in this library because Java needs policy file additions to make it happen and 128 bit AES is currently strong enough. From [Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard#Known_attacks):
+
+>As for now, there are no known practical attacks that would allow anyone to read correctly implemented AES [128 bit] encrypted data
+
+The decrypt functionality knows about the format of the encrypted bytes and extracts the AES key using the RSA private key and then decodes the remaining bytes using the extracted AES key.
+
+The output from the encryption method in this library is a byte sequence comprised of:
+
+* 1 byte = length in bytes of RSA encrypted AES key - 1
+* the bytes of the RSA encrypted AES key
+* the bytes of the AES encrypted message
+
+<img src="ppk/src/docs/format.png?raw=true" /> 
+
+If you do just want to use RSA on short input (<=214 bytes) you can use `PPK.encryptRSA()` and `PPK.decryptRSA()` methods.
 
 
