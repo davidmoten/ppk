@@ -85,8 +85,8 @@ mvn ppk:create
 ```
 
 
-Examples
----------------
+Encrypting and decrypting
+-------------------------
 Encrypt a string:
 ```java
 String content = "Hello World";
