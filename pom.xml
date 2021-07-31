@@ -28,7 +28,7 @@
         <junit.version>4.13.1</junit.version>
 
         <cobertura.version>2.7</cobertura.version>
-        <checkstyle.version>2.13</checkstyle.version>
+        <checkstyle.version>3.1.2</checkstyle.version>
         <findbugs.version>3.0.1</findbugs.version>
         <javadoc.version>2.10.2</javadoc.version>
         <pmd.version>3.4</pmd.version>
