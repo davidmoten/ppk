@@ -21,7 +21,7 @@ final class Bytes {
             return bytes.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        } 
     }
 
 }
