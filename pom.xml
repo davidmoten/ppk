@@ -23,6 +23,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+
         <scm.url>scm:git:https://github.com/davidmoten/ppk.git</scm.url>
         <m3.site.version>3.4</m3.site.version>
         <junit.version>4.13.1</junit.version>
