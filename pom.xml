@@ -91,25 +91,25 @@
 
     <build>
         <plugins>
-            <plugin>
-                <!-- Deploy the web site to github -->
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>site</phase>
-                        <configuration>
-                            <server>github</server>
-                            <message>Deploy site for ${project.artifactId}-${project.version}</message>
-                            <merge>true</merge>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--             <plugin> -->
+<!--                 Deploy the web site to github -->
+<!--                 <groupId>com.github.github</groupId> -->
+<!--                 <artifactId>site-maven-plugin</artifactId> -->
+<!--                 <version>0.12</version> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <goals> -->
+<!--                             <goal>site</goal> -->
+<!--                         </goals> -->
+<!--                         <phase>site</phase> -->
+<!--                         <configuration> -->
+<!--                             <server>github</server> -->
+<!--                             <message>Deploy site for ${project.artifactId}-${project.version}</message> -->
+<!--                             <merge>true</merge> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${m3.site.version}</version>
