@@ -27,17 +27,16 @@
 
         <scm.url>scm:git:https://github.com/davidmoten/ppk.git</scm.url>
         <m3.site.version>3.4</m3.site.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
 
-        <cobertura.version>2.7</cobertura.version>
-        <checkstyle.version>2.13</checkstyle.version>
+        <checkstyle.version>3.1.2</checkstyle.version>
         <findbugs.version>3.0.1</findbugs.version>
-        <javadoc.version>2.10.2</javadoc.version>
-        <pmd.version>3.4</pmd.version>
+        <javadoc.version>3.3.1</javadoc.version>
+        <pmd.version>3.15.0</pmd.version>
         <jdepend.version>2.0-beta-2</jdepend.version>
         <javancss.version>2.1</javancss.version>
         <project.info.version>2.7</project.info.version>
-        <jxr.version>2.5</jxr.version>
+        <jxr.version>3.1.1</jxr.version>
         <taglist.version>2.4</taglist.version>
         <m3.site.version>3.4</m3.site.version>
         <changelog.version>2.2</changelog.version>
@@ -139,11 +138,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>${cobertura.version}</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.version}</version>
@@ -202,10 +196,6 @@
                     <aggregate>true</aggregate>
                 </configuration>
             </plugin>
-            <!-- commented this plugin out because cannot run offline (e.g. at home) -->
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changelog-plugin</artifactId> 
-                <version>${changelog.version}</version> <configuration> <username>${svn.username}</username> <password>${svn.password}</password> 
-                </configuration> </plugin> -->
         </plugins>
     </reporting>
 </project>
