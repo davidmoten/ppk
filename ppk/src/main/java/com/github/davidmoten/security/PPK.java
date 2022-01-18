@@ -437,7 +437,8 @@ public final class PPK {
 			throw new PrivateKeyNotSetException();
 	}
 
-	private static byte[] read(InputStream is, int numBytes) {
+	// VisibleForTesting
+	static byte[] read(InputStream is, int numBytes) {
 		byte[] b = new byte[numBytes];
 		int i = 0;
 		try {

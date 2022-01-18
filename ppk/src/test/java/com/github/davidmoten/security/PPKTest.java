@@ -1,5 +1,6 @@
 package com.github.davidmoten.security;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class PPKTest {
@@ -242,6 +245,71 @@ public class PPKTest {
         byte[] bytes = PPK.publicKey(kp.publicKeyDer()).encrypt(content, StandardCharsets.UTF_8);
         String text = PPK.privateKey(kp.privateKeyDer()).decrypt(bytes, StandardCharsets.UTF_8);
         assertEquals(content, text);
+    }
+    
+    @Test
+    public void testRead() {
+        InputStream in = new InputStream() {
+            int i = 0;
+
+            @Override
+            public int read() throws IOException {
+                byte[] b = new byte[1];
+                return read(b, 0, 1);
+            }
+
+            @Override
+            public int read(byte[] b, int off, int len) throws IOException {
+                i++;
+                if (i == 1) {
+                    b[off] = 1;
+                    b[off + 1] = 2;
+                    return 2;
+                } else if (i == 2) {
+                    b[off] = 3;
+                    b[off + 1] = 4;
+                    return 2;
+                } else if (i == 3) {
+                    return -1;
+                } else {
+                    throw new IllegalStateException();
+                }
+            }
+
+        };
+        byte[] b = PPK.read(in, 4);
+        assertArrayEquals(new byte[] { 1, 2, 3, 4 }, b);
+    }
+    
+    @Test
+    public void testReadThrows() {
+        InputStream in = new InputStream() {
+
+            @Override
+            public int read() throws IOException {
+                throw new IOException("boo");
+            }
+
+        };
+        try {
+            PPK.read(in, 4);
+            Assert.fail();
+        } catch (UncheckedIOException e) {
+            assertEquals("boo", e.getCause().getMessage());
+        }
+    }
+    
+    @Test
+    public void testReadIntoEmptyArray() {
+        InputStream in = new InputStream() {
+
+            @Override
+            public int read() throws IOException {
+                return -1;
+            }
+
+        };
+        assertArrayEquals(new byte[] {}, PPK.read(in, 0));
     }
 
     private void testRSA(int length) {
