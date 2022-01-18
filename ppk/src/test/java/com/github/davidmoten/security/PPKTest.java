@@ -53,24 +53,23 @@ public class PPKTest {
     @Test
     public void testBuilder() {
         byte[] bytes = PPK.publicKey("/public.der").encrypt(content, StandardCharsets.UTF_8);
-        assertEquals(content,
-                PPK.privateKey("/private.der").decrypt(bytes, StandardCharsets.UTF_8));
+        assertEquals(content, PPK.privateKey("/private.der").decrypt(bytes, StandardCharsets.UTF_8));
     }
 
     @Test
     public void testBuilderUsingFiles() {
         byte[] bytes = PPK.publicKey(new File("src/test/resources/public.der")).encrypt(content,
                 StandardCharsets.UTF_8);
-        assertEquals(content, PPK.privateKey(new File("src/test/resources/private.der"))
-                .decrypt(bytes, StandardCharsets.UTF_8));
+        assertEquals(content,
+                PPK.privateKey(new File("src/test/resources/private.der")).decrypt(bytes, StandardCharsets.UTF_8));
     }
 
     @Test
     public void testBuilderUsingInputStream() {
         byte[] bytes = PPK.publicKey(new File("src/test/resources/public.der"))
                 .encrypt(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
-        assertEquals(content, PPK.privateKey(new File("src/test/resources/private.der"))
-                .decrypt(bytes, StandardCharsets.UTF_8));
+        assertEquals(content,
+                PPK.privateKey(new File("src/test/resources/private.der")).decrypt(bytes, StandardCharsets.UTF_8));
     }
 
     @Test(expected = RuntimeException.class)
@@ -169,8 +168,7 @@ public class PPKTest {
     @Test
     public void testRoundTripPureRSA() {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String result = ppk.decryptRsa(ppk.encryptRsa(content, StandardCharsets.UTF_8),
-                StandardCharsets.UTF_8);
+        String result = ppk.decryptRsa(ppk.encryptRsa(content, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
         assertEquals(content, result);
     }
 
@@ -246,7 +244,7 @@ public class PPKTest {
         String text = PPK.privateKey(kp.privateKeyDer()).decrypt(bytes, StandardCharsets.UTF_8);
         assertEquals(content, text);
     }
-    
+
     @Test
     public void testRead() {
         InputStream in = new InputStream() {
@@ -280,7 +278,7 @@ public class PPKTest {
         byte[] b = PPK.read(in, 4);
         assertArrayEquals(new byte[] { 1, 2, 3, 4 }, b);
     }
-    
+
     @Test
     public void testReadThrows() {
         InputStream in = new InputStream() {
@@ -298,7 +296,7 @@ public class PPKTest {
             assertEquals("boo", e.getCause().getMessage());
         }
     }
-    
+
     @Test
     public void testReadIntoEmptyArray() {
         InputStream in = new InputStream() {
@@ -314,10 +312,8 @@ public class PPKTest {
 
     private void testRSA(int length) {
         PPK ppk = PPK.publicKey("/public.der").privateKey("/private.der").build();
-        String content = IntStream.range(0, length).mapToObj(x -> "a")
-                .collect(Collectors.joining());
-        String result = ppk.decryptRsa(ppk.encryptRsa(content, StandardCharsets.UTF_8),
-                StandardCharsets.UTF_8);
+        String content = IntStream.range(0, length).mapToObj(x -> "a").collect(Collectors.joining());
+        String result = ppk.decryptRsa(ppk.encryptRsa(content, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
         assertEquals(content, result);
     }
 
