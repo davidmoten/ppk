@@ -28,7 +28,7 @@
         <m3.site.version>3.12.1</m3.site.version>
         <junit.version>4.13.2</junit.version>
 
-        <checkstyle.version>3.2.2</checkstyle.version>
+        <checkstyle.version>3.3.0</checkstyle.version>
         <findbugs.version>3.0.1</findbugs.version>
         <javadoc.version>3.5.0</javadoc.version>
         <pmd.version>3.21.0</pmd.version>
