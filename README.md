@@ -1,7 +1,7 @@
 ppk
 ======
 <a href="https://github.com/davidmoten/ppk/actions/workflows/ci.yml"><img src="https://github.com/davidmoten/ppk/actions/workflows/ci.yml/badge.svg"/></a><br/>
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/ppk/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.davidmoten/ppk)<br/>
+[![Maven Central](https://maven-badges.sml.io/sonatype-central/com.github.davidmoten/ppk/badge.svg?style=flat)](https://maven-badges.sml.io/sonatype-central/com.github.davidmoten/ppk)<br/>
 
 Concise Public Private Key encryption using Java.
 
